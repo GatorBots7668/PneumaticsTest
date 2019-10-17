@@ -1,7 +1,7 @@
 package frc.robot;
 
 public class Mappings {
-    public final static int xboxController = 1;
+    public final static int xboxController = 0;
     public final static int idPCM = 0;
     public final static int btnCompressor = 1;
     public final static int btnSolenoidIn = 2;

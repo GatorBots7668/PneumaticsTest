@@ -40,8 +40,10 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 
+    // Enable compressor when button is pressed (closed loop meaning when pressure switch is not activated)
     m_compressor.setClosedLoopControl(m_controller.getRawButton(Mappings.btnCompressor));
     
+    // Extend or retract piston when appropriate button is pressed
     if(m_controller.getRawButton(Mappings.btnSolenoidIn)){
       m_piston.set(DoubleSolenoid.Value.kForward);
     }else if(m_controller.getRawButton(Mappings.btnSolenoidOut)){
