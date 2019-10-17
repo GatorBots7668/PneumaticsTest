@@ -7,22 +7,22 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 
-/**
- * The VM is configured to automatically run this class, and to call the
- * functions corresponding to each mode, as described in the TimedRobot
- * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the build.gradle file in the
- * project.
- */
 public class Robot extends TimedRobot {
-  /**
-   * This function is run when the robot is first started up and should be used
-   * for any initialization code.
-   */
+
+  private Joystick m_controller;
+  private Compressor m_compressor;
+  private DoubleSolenoid m_piston;
+
   @Override
   public void robotInit() {
+    m_controller = new Joystick(Mappings.xboxController);
+    m_compressor = new Compressor(Mappings.idPCM);
+    m_piston = new DoubleSolenoid(Mappings.portSolenoidIn, Mappings.portSolenoidOut);
   }
 
   @Override
@@ -39,6 +39,16 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
+
+    m_compressor.setClosedLoopControl(m_controller.getRawButton(Mappings.btnCompressor));
+    
+    if(m_controller.getRawButton(Mappings.btnSolenoidIn)){
+      m_piston.set(DoubleSolenoid.Value.kForward);
+    }else if(m_controller.getRawButton(Mappings.btnSolenoidOut)){
+      m_piston.set(DoubleSolenoid.Value.kReverse);
+    }else{
+      m_piston.set(DoubleSolenoid.Value.kOff);
+    }
   }
 
   @Override
